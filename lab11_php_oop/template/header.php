@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praktikum 11 - PHP OOP Framework</title>
+    <title>Praktikum 11 & 12 - PHP OOP Framework</title>
     <style>
         * {
             margin: 0;
@@ -47,18 +47,28 @@
             background: #f8f9fa;
             padding: 15px 30px;
             border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .nav a {
             display: inline-block;
             padding: 10px 20px;
-            margin-right: 10px;
             background: white;
             color: #667eea;
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.3s;
             border: 2px solid #667eea;
+            font-size: 14px;
         }
         
         .nav a:hover {
@@ -66,6 +76,26 @@
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav a.logout {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+        
+        .nav a.logout:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+        
+        .nav .user-info {
+            padding: 10px 15px;
+            background: #e7f3ff;
+            border-radius: 5px;
+            color: #004085;
+            font-size: 14px;
+            font-weight: 600;
         }
         
         .content {
@@ -188,14 +218,35 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Praktikum 11 - PHP OOP Framework</h1>
-            <p>Konsep Modularisasi & Routing</p>
+            <h1>🚀 Praktikum 11 & 12 - PHP OOP Framework</h1>
+            <p>Konsep Modularisasi, Routing & Autentikasi</p>
         </div>
         
         <div class="nav">
-            <a href="/lab11_php_oop/">🏠 Home</a>
-            <a href="/lab11_php_oop/index.php/user/list">👥 Data User</a>
-            <a href="/lab11_php_oop/index.php/user/tambah">➕ Tambah User</a>
+            <div class="nav-left">
+                <a href="/lab11_php_oop/">🏠 Home</a>
+                
+                <?php if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true): ?>
+                    <a href="/lab11_php_oop/index.php/user/list">👥 Data User</a>
+                    <a href="/lab11_php_oop/index.php/user/tambah">➕ Tambah User</a>
+                    <a href="/lab11_php_oop/index.php/auth/profile">👤 Profil</a>
+                <?php endif; ?>
+            </div>
+            
+            <div class="nav-right">
+                <?php if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true): ?>
+                    <span class="user-info">
+                        👋 <?php echo htmlspecialchars($_SESSION['nama']); ?>
+                    </span>
+                    <a href="/lab11_php_oop/index.php/auth/logout" class="logout" onclick="return confirm('Yakin ingin logout?')">
+                        🚪 Logout
+                    </a>
+                <?php else: ?>
+                    <a href="/lab11_php_oop/index.php/auth/login">
+                        🔐 Login
+                    </a>
+                <?php endif; ?>
+            </div>
         </div>
         
         <div class="content">
